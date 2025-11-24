@@ -1,0 +1,178 @@
+// Prisma Schema for IT Interview Test System
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// Enum definitions
+enum QuestionDifficulty {
+  easy
+  medium
+  hard
+}
+
+enum CorrectOption {
+  A
+  B
+  C
+  D
+}
+
+enum TestStatus {
+  pending
+  in_progress
+  completed
+  expired
+  cancelled
+}
+
+enum TestEventType {
+  start
+  submit
+  tab_blur
+  tab_focus
+  auto_expire
+  answer_change
+}
+
+// Category table - Skill categories (NODE, REACT, etc.)
+model Category {
+  id        String     @id @default(cuid())
+  name      String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  questions Question[]
+  testSessionCategories TestSessionCategory[]
+
+  @@map("categories")
+}
+
+// Question bank
+model Question {
+  id             Int                    @id @default(autoincrement())
+  categoryId     String
+  content        String                 @db.Text
+  optionA        String                 @db.Text
+  optionB        String                 @db.Text
+  optionC        String                 @db.Text
+  optionD        String                 @db.Text
+  correctOption  CorrectOption
+  difficulty     QuestionDifficulty
+  isActive       Boolean                @default(true)
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+  category       Category               @relation(fields: [categoryId], references: [id])
+  testSessionQuestions TestSessionQuestion[]
+
+  @@index([categoryId, difficulty, isActive])
+  @@map("questions")
+}
+
+// Candidate information
+model Candidate {
+  id              String        @id @default(cuid())
+  fullName        String?
+  email           String?
+  positionApplied String?
+  cvUrl           String?
+  cvSummary       String?       @db.Text
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  testSessions    TestSession[]
+
+  @@map("candidates")
+}
+
+// Test session
+model TestSession {
+  id                    String                @id @default(cuid())
+  candidateId           String
+  createdBy             String                // User ID who created this test
+  testCode              String                @unique
+  status                TestStatus            @default(pending)
+  totalQuestions        Int                   @default(30)
+  timeLimitSeconds      Int                   @default(900) // 15 minutes
+  startedAt             DateTime?
+  finishedAt            DateTime?
+  correctCount          Int?
+  score                 Float?
+  finishedReason        String?
+  meta                  Json?
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+  candidate             Candidate             @relation(fields: [candidateId], references: [id])
+  creator               User                  @relation(fields: [createdBy], references: [id])
+  testSessionQuestions  TestSessionQuestion[]
+  testLogs              TestLog[]
+  testSessionCategories TestSessionCategory[]
+
+  @@index([testCode])
+  @@index([candidateId])
+  @@index([createdBy])
+  @@map("test_sessions")
+}
+
+// Questions assigned to a test session
+model TestSessionQuestion {
+  id              String         @id @default(cuid())
+  testSessionId   String
+  questionId      Int
+  orderIndex      Int
+  selectedOption  CorrectOption?
+  answeredAt      DateTime?
+  isCorrect       Boolean?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  testSession     TestSession    @relation(fields: [testSessionId], references: [id], onDelete: Cascade)
+  question        Question       @relation(fields: [questionId], references: [id])
+
+  @@unique([testSessionId, questionId])
+  @@index([testSessionId, orderIndex])
+  @@map("test_session_questions")
+}
+
+// Category weights for a test session (from AI analysis)
+model TestSessionCategory {
+  id            String      @id @default(cuid())
+  testSessionId String
+  categoryId    String
+  weight        Float       // 0.0 to 1.0
+  createdAt     DateTime    @default(now())
+  testSession   TestSession @relation(fields: [testSessionId], references: [id], onDelete: Cascade)
+  category      Category    @relation(fields: [categoryId], references: [id])
+
+  @@unique([testSessionId, categoryId])
+  @@map("test_session_categories")
+}
+
+// Event logs for monitoring
+model TestLog {
+  id            String        @id @default(cuid())
+  testSessionId String
+  eventType     TestEventType
+  eventData     Json?
+  createdAt     DateTime      @default(now())
+  testSession   TestSession   @relation(fields: [testSessionId], references: [id], onDelete: Cascade)
+
+  @@index([testSessionId, createdAt])
+  @@map("test_logs")
+}
+
+// User table for authentication (Recruiter)
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  password     String
+  name         String?
+  role         String        @default("recruiter")
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  testSessions TestSession[]
+
+  @@map("users")
+}

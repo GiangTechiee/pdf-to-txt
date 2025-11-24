@@ -1,0 +1,62 @@
+[
+  {
+    "id": "react",
+    "name": "React",
+    "description": "React library for building user interfaces",
+    "keywords": ["react", "jsx", "hooks", "context", "components"]
+  },
+  {
+    "id": "nextjs",
+    "name": "Next.js",
+    "description": "React framework with SSR and SSG",
+    "keywords": ["nextjs", "next.js", "app router", "server components"]
+  },
+  {
+    "id": "nodejs",
+    "name": "Node.js",
+    "description": "JavaScript runtime for server-side development",
+    "keywords": ["nodejs", "node.js", "express", "npm", "backend"]
+  },
+  {
+    "id": "nestjs",
+    "name": "NestJS",
+    "description": "Progressive Node.js framework",
+    "keywords": ["nestjs", "nest.js", "decorators", "modules"]
+  },
+  {
+    "id": "aspnet-core",
+    "name": "ASP.NET Core",
+    "description": "Cross-platform .NET framework",
+    "keywords": ["asp.net", "aspnet", "c#", ".net", "dotnet"]
+  },
+  {
+    "id": "rest-api",
+    "name": "REST API",
+    "description": "RESTful API design and development",
+    "keywords": ["rest", "api", "restful", "http", "endpoints"]
+  },
+  {
+    "id": "sql",
+    "name": "SQL",
+    "description": "Relational database and SQL query language",
+    "keywords": ["sql", "database", "mysql", "postgresql", "query", "relational"]
+  },
+  {
+    "id": "flutter",
+    "name": "Flutter",
+    "description": "Cross-platform mobile development framework",
+    "keywords": ["flutter", "dart", "mobile", "android", "ios"]
+  },
+  {
+    "id": "react-native",
+    "name": "React Native",
+    "description": "React framework for native mobile apps",
+    "keywords": ["react native", "react-native", "mobile", "expo"]
+  },
+  {
+    "id": "machine-learning",
+    "name": "Machine Learning",
+    "description": "Machine learning and AI development",
+    "keywords": ["machine learning", "ml", "ai", "tensorflow", "pytorch"]
+  }
+]
