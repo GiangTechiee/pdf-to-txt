@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { formatTimeRemaining, cn } from '@/lib/utils';
 import { useWebSocket } from '@/hooks/useWebSocket';
+import { CVSummaryDisplay } from '@/components/CVSummaryDisplay';
 
 interface TestDetails {
   testSession: {
@@ -229,19 +230,27 @@ export default function TestMonitoringPage() {
                   <p className="text-sm text-muted-foreground">Vị trí ứng tuyển</p>
                   <p className="font-medium">{candidate.positionApplied || 'N/A'}</p>
                 </div>
-                {candidate.cvSummary && (
-                  <div className="md:col-span-2">
-                    <p className="text-sm text-muted-foreground mb-1">Tóm tắt CV</p>
-                    <div className="bg-muted/50 p-3 rounded-md text-sm leading-relaxed">
-                      {candidate.cvSummary}
-                    </div>
-                  </div>
-                )}
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Skill Categories */}
+          {/* CV Summary - Expanded Section */}
+          {candidate.cvSummary && (
+            <motion.div variants={itemVariants}>
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex items-center gap-2 text-base">
+                    <FileText className="h-4 w-4 text-primary" /> Phân tích CV Chi tiết
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CVSummaryDisplay cvSummary={candidate.cvSummary} />
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
+
+          {/* Skill Categories - Move this section after CV Summary */}
           <motion.div variants={itemVariants}>
             <Card>
               <CardHeader className="pb-3">
@@ -272,6 +281,8 @@ export default function TestMonitoringPage() {
               </CardContent>
             </Card>
           </motion.div>
+
+
 
           {/* Activity Logs */}
           <motion.div variants={itemVariants}>

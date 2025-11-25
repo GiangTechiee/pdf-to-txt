@@ -1,0 +1,113 @@
+{
+  "candidateInfo": {
+    "fullName": "Nguyen Van A",
+    "email": "nguyenvana@example.com",
+    "positionApplied": "Frontend Developer"
+  },
+  "skillsWithWeights": [
+    { "categoryId": "react", "weight": 0.8 },
+    { "categoryId": "nodejs", "weight": 0.6 },
+    { "categoryId": "javascript", "weight": 0.7 }
+  ],
+  "cvSummary": {
+    "thongTinUngVien": {
+      "hoTen": "Nguyen Van A",
+      "viTriMongMuon": "Frontend Developer",
+      "kinhNghiem": "2 năm kinh nghiệm phát triển web với ReactJS\nLàm việc tại Công ty ABC (2022-2024) - Phát triển các ứng dụng web cho khách hàng doanh nghiệp\nFreelancer (2021-2022) - Nhận các dự án web nhỏ",
+      "hocVanChungChi": "Đại học FPT - Kỹ sư Phần mềm (2018-2022); Chứng chỉ AWS Cloud Practitioner (2023)",
+      "kyNang": "Kỹ năng lập trình: JavaScript, TypeScript, Python\nCông nghệ/Framework: ReactJS, NextJS, TailwindCSS, NodeJS, ExpressJS\nKỹ năng mềm: Làm việc nhóm, Giao tiếp, Quản lý thời gian, Giải quyết vấn đề",
+      "ngonNgu": "Tiếng Anh (TOEIC 850 - Giao tiếp tốt), Tiếng Nhật (N4 - Cơ bản)",
+      "duAnThanhTich": [
+        {
+          "type": "project",
+          "title": "E-commerce Platform",
+          "role": "Frontend Developer",
+          "description": "Phát triển giao diện người dùng cho nền tảng thương mại điện tử, xử lý hơn 10,000 sản phẩm với hiệu suất tốt. Tích hợp thanh toán online và quản lý giỏ hàng",
+          "technologies": "ReactJS, Redux, TailwindCSS, Stripe API, REST API"
+        },
+        {
+          "type": "project",
+          "title": "Company Dashboard",
+          "role": "Full Stack Developer",
+          "description": "Xây dựng dashboard quản lý nội bộ công ty với các tính năng báo cáo, thống kê real-time. Tối ưu hiệu suất render với React.memo và useMemo",
+          "technologies": "ReactJS, NextJS, NodeJS, PostgreSQL, Chart.js, WebSocket"
+        },
+        {
+          "type": "project",
+          "title": "Portfolio Website",
+          "role": "Frontend Developer",
+          "description": "Thiết kế và phát triển website portfolio cá nhân với animation mượt mà, responsive trên mọi thiết bị",
+          "technologies": "ReactJS, Framer Motion, TailwindCSS, Vercel"
+        },
+        {
+          "type": "achievement",
+          "title": "Giải Nhất Hackathon FPT 2023",
+          "description": "Đạt giải nhất cuộc thi Hackathon với dự án AI Chatbot hỗ trợ học tập, thu hút hơn 200 đội tham gia"
+        },
+        {
+          "type": "achievement",
+          "title": "Speaker tại React Vietnam Meetup",
+          "description": "Chia sẻ về React Performance Optimization tại sự kiện React Vietnam Meetup với hơn 100 người tham dự"
+        },
+        {
+          "type": "achievement",
+          "title": "Contributor cho Open Source",
+          "description": "Đóng góp code cho các dự án open source trên GitHub, có hơn 50 stars cho repository cá nhân"
+        }
+      ]
+    },
+    "nhanXetDanhGia": {
+      "mucDoPhuHop": "Cao. Ứng viên có kinh nghiệm thực tế 2 năm với ReactJS, đã làm việc trên các dự án có quy mô và độ phức tạp khác nhau. Kỹ năng kỹ thuật phù hợp với yêu cầu vị trí Frontend Developer, đặc biệt mạnh về React ecosystem và có kiến thức Full Stack.",
+      "diemManh": [
+        "Kinh nghiệm thực tế với ReactJS và các công nghệ frontend hiện đại (NextJS, TailwindCSS)",
+        "Có kiến thức Full Stack với NodeJS và PostgreSQL, giúp hiểu rõ cả backend",
+        "Chứng minh khả năng tối ưu hiệu suất (React.memo, useMemo, xử lý 10,000 sản phẩm)",
+        "Tích cực tham gia cộng đồng (Speaker, Open Source contributor)",
+        "Có thành tích nổi bật (Giải nhất Hackathon)",
+        "Trình độ tiếng Anh tốt (TOEIC 850)"
+      ],
+      "diemCanCaiThien": [
+        "Kinh nghiệm làm việc chính thức còn ít (2 năm), cần thêm thời gian để phát triển",
+        "Chưa đề cập đến kinh nghiệm làm việc với team lớn hoặc quy trình Agile/Scrum",
+        "Thiếu thông tin về testing (Unit test, E2E test)"
+      ],
+      "chatLuongCV": "CV được trình bày rõ ràng, có cấu trúc tốt. Thông tin dự án được mô tả chi tiết với công nghệ cụ thể. Tuy nhiên, nên thêm metrics cụ thể hơn (số lượng user, performance improvement %) để tăng tính thuyết phục.",
+      "goiYBoSung": [
+        "Thêm thông tin về kinh nghiệm testing (Jest, React Testing Library, Cypress)",
+        "Bổ sung metrics cụ thể cho các dự án (số user, performance metrics, business impact)",
+        "Đề cập đến kinh nghiệm làm việc với Git workflow (Git Flow, PR review)",
+        "Thêm link đến GitHub profile và portfolio website để nhà tuyển dụng dễ đánh giá"
+      ]
+    },
+    "cauHoiPhongVan": [
+      {
+        "cauHoi": "Trong dự án E-commerce Platform, bạn đã xử lý 10,000 sản phẩm như thế nào để đảm bảo hiệu suất tốt? Có sử dụng kỹ thuật nào đặc biệt không?",
+        "yChinhCanCo": "Ứng viên nên đề cập đến: Virtualization (react-window/react-virtualized), Pagination/Infinite scroll, Lazy loading images, Memoization (React.memo, useMemo), Code splitting, Caching strategies. Đánh giá khả năng tối ưu hiệu suất và hiểu biết về React performance."
+      },
+      {
+        "cauHoi": "Bạn có thể giải thích về kiến trúc state management trong dự án E-commerce không? Tại sao chọn Redux và có gặp khó khăn gì không?",
+        "yChinhCanCo": "Ứng viên cần thể hiện: Hiểu về Redux flow (actions, reducers, store), lý do chọn Redux vs Context API, cách tổ chức code (ducks pattern, slice), middleware (redux-thunk/saga), và các best practices. Đánh giá khả năng thiết kế architecture."
+      },
+      {
+        "cauHoi": "Trong dự án Company Dashboard với real-time data, bạn đã implement WebSocket như thế nào? Có xử lý các edge cases gì không?",
+        "yChinhCanCo": "Ứng viên nên nói về: WebSocket connection management, reconnection logic, error handling, data synchronization, optimistic updates. Đánh giá khả năng xử lý real-time communication và edge cases."
+      },
+      {
+        "cauHoi": "Bạn đã từng làm việc trong team như thế nào? Có kinh nghiệm với Agile/Scrum không? Code review process ra sao?",
+        "yChinhCanCo": "Ứng viên cần thể hiện: Kinh nghiệm làm việc nhóm, communication skills, conflict resolution, code review practices, Git workflow (branching, PR), và hiểu biết về Agile ceremonies (daily standup, sprint planning, retrospective)."
+      },
+      {
+        "cauHoi": "Với vai trò Speaker tại React Vietnam Meetup về Performance Optimization, bạn có thể chia sẻ 3-5 kỹ thuật quan trọng nhất để tối ưu React app không?",
+        "yChinhCanCo": "Ứng viên nên đề cập: React.memo, useMemo/useCallback, Code splitting (React.lazy), Virtualization, Image optimization, Bundle size optimization. Đánh giá độ sâu kiến thức và khả năng truyền đạt."
+      },
+      {
+        "cauHoi": "Bạn có kinh nghiệm với testing không? Đã viết test cho dự án nào chưa? Approach của bạn về testing là gì?",
+        "yChinhCanCo": "Ứng viên nên nói về: Unit testing (Jest), Component testing (React Testing Library), E2E testing (Cypress/Playwright), Test coverage, TDD approach. Nếu chưa có kinh nghiệm, đánh giá thái độ học hỏi và hiểu biết lý thuyết."
+      },
+      {
+        "cauHoi": "Trong 6 tháng tới, bạn muốn phát triển kỹ năng gì? Có mục tiêu nghề nghiệp cụ thể không?",
+        "yChinhCanCo": "Đánh giá: Career goals, learning mindset, self-awareness, alignment với company roadmap. Ứng viên nên thể hiện động lực học hỏi và định hướng rõ ràng (ví dụ: master TypeScript, learn system design, become tech lead)."
+      }
+    ]
+  }
+}

@@ -12,7 +12,7 @@ class GeminiCvAnalysisService implements CvAnalysisService {
   constructor() {
     // Initialize with analysis API key (Key B)
     this.genAI = new GoogleGenerativeAI(env.GEMINI_ANALYSIS_API_KEY);
-    this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+    this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-pro' });
   }
 
   async analyzeCvAndJd(cvText: string, jdText?: string): Promise<CvAnalysisResult> {
@@ -76,44 +76,137 @@ class GeminiCvAnalysisService implements CvAnalysisService {
   private async buildAnalysisPrompt(cvText: string, jdText?: string): Promise<string> {
     const categoriesText = await formatAvailableCategoriesForAI();
     
-    return `You are an expert IT recruiter. Analyze the following CV and extract structured information.
+    return `Bạn là một chuyên gia tuyển dụng & phỏng vấn với hơn 10 năm kinh nghiệm trong các lĩnh vực CNTT, Marketing, và Kinh doanh. Nhiệm vụ của bạn là phân tích CV được tải lên, đánh giá mức độ phù hợp với yêu cầu tuyển dụng, đưa ra nhận xét chi tiết và gợi ý các câu hỏi phỏng vấn kèm các ý chính mà câu trả lời nên có.
 
-CV Content:
+Nội dung CV:
 ${cvText}
 
-${jdText ? `Job Description:\n${jdText}\n` : ''}
+${jdText ? `Mô tả công việc (Job Description):\n${jdText}\n` : ''}
 
-Your task:
-1. Extract candidate information (fullName, email, positionApplied)
-2. Identify technical skills and categorize them with weights (0.0 to 1.0)
-3. Create a concise 5-7 line CV summary
+Quy trình xử lý:
 
-Available skill categories and their IDs (MUST use exact IDs):
+1. Trích xuất thông tin từ CV:
+   - Họ tên ứng viên
+   - Vị trí mong muốn / lĩnh vực chuyên môn
+   - Kinh nghiệm làm việc (số năm, lĩnh vực, công ty tiêu biểu)
+   - Trình độ học vấn và chứng chỉ liên quan
+   - Kỹ năng chính (technical & soft skills)
+   - Ngôn ngữ và trình độ
+   - Thành tích hoặc dự án nổi bật (nếu có)
+
+2. Đánh giá & nhận xét:
+   - Mức độ phù hợp với vị trí đang tuyển
+   - Điểm mạnh nổi bật
+   - Điểm cần cải thiện
+   - Chất lượng trình bày CV (rõ ràng, chuyên nghiệp, thiếu thông tin…)
+   - Gợi ý bổ sung để CV tốt hơn
+
+3. Gợi ý câu hỏi phỏng vấn:
+   - Chọn 5–7 câu hỏi phù hợp với vị trí và kinh nghiệm của ứng viên
+   - Mỗi câu hỏi cần kèm ý chính mà câu trả lời nên có
+
+Danh sách các kỹ năng kỹ thuật có sẵn (PHẢI sử dụng ĐÚNG ID):
 ${categoriesText}
 
-IMPORTANT: Use ONLY the exact category IDs listed above (lowercase with hyphens).
-These are the ONLY categories that have questions available in the database.
+QUAN TRỌNG: Chỉ sử dụng các category ID được liệt kê ở trên (viết thường, có dấu gạch ngang).
+Đây là các category DUY NHẤT có câu hỏi trong cơ sở dữ liệu.
 
-Return ONLY a valid JSON object in this exact format:
+Trả về ĐÚNG định dạng JSON sau (không thêm text nào khác):
 {
   "candidateInfo": {
-    "fullName": "string or null",
-    "email": "string or null",
-    "positionApplied": "string or null"
+    "fullName": "string hoặc null",
+    "email": "string hoặc null",
+    "positionApplied": "string hoặc null"
   },
   "skillsWithWeights": [
     { "categoryId": "react", "weight": 0.8 },
     { "categoryId": "nodejs", "weight": 0.6 }
   ],
-  "cvSummary": "5-7 line summary here"
+  "cvSummary": {
+    "thongTinUngVien": {
+      "hoTen": "Họ tên đầy đủ",
+      "viTriMongMuon": "Vị trí ứng tuyển",
+      "kinhNghiem": "Mô tả kinh nghiệm (số năm, lĩnh vực, công ty). Nếu có nhiều công ty, mỗi công ty trên 1 dòng.",
+      "hocVanChungChi": "Trình độ học vấn và các chứng chỉ. Mỗi bằng cấp/chứng chỉ cách nhau bằng dấu chấm phẩy (;).",
+      "kyNang": "Danh sách kỹ năng. PHẢI phân loại rõ ràng:\n- Dòng 1: Kỹ năng lập trình (ngôn ngữ)\n- Dòng 2: Công nghệ/Framework\n- Dòng 3: Kỹ năng mềm\nMỗi loại trên 1 dòng riêng, cách nhau bằng \\n",
+      "ngonNgu": "Các ngôn ngữ và trình độ. Ví dụ: Tiếng Anh (TOEIC 850), Tiếng Nhật (N3)",
+      "duAnThanhTich": "ARRAY - Danh sách dự án và thành tích. MỖI ITEM là 1 object có cấu trúc:\n{\"type\": \"project\" hoặc \"achievement\", \"title\": \"Tên dự án/thành tích\", \"role\": \"Vai trò (chỉ có khi type=project)\", \"description\": \"Mô tả chi tiết\", \"technologies\": \"Công nghệ sử dụng (chỉ có khi type=project)\"}"
+    },
+    "nhanXetDanhGia": {
+      "mucDoPhuHop": "Đánh giá mức độ phù hợp với vị trí (cao/trung bình/thấp và lý do)",
+      "diemManh": [
+        "Điểm mạnh 1",
+        "Điểm mạnh 2",
+        "Điểm mạnh 3"
+      ],
+      "diemCanCaiThien": [
+        "Điểm cần cải thiện 1",
+        "Điểm cần cải thiện 2"
+      ],
+      "chatLuongCV": "Nhận xét về cách trình bày CV",
+      "goiYBoSung": [
+        "Gợi ý 1 để CV tốt hơn",
+        "Gợi ý 2 để CV tốt hơn"
+      ]
+    },
+    "cauHoiPhongVan": [
+      {
+        "cauHoi": "Câu hỏi phỏng vấn số 1",
+        "yChinhCanCo": "Các ý chính mà câu trả lời nên có để đánh giá ứng viên"
+      },
+      {
+        "cauHoi": "Câu hỏi phỏng vấn số 2",
+        "yChinhCanCo": "Các ý chính mà câu trả lời nên có"
+      }
+    ]
+  }
 }
 
-Rules:
-- Include only categories where the candidate has demonstrable skills
-- Weight should reflect proficiency level (0.1 = beginner, 0.5 = intermediate, 0.8+ = advanced)
-- Include at least 2 and at most 6 categories
-- Summary MUST be written in Vietnamese language and should be professional and highlight key strengths
-- Return ONLY the JSON, no additional text`;
+VÍ DỤ CỤ THỂ về duAnThanhTich (QUAN TRỌNG - PHẢI TUÂN THỦ):
+"duAnThanhTich": [
+  {
+    "type": "project",
+    "title": "Pharmaflow",
+    "role": "Frontend Developer",
+    "description": "Phát triển hệ thống quản lý nhà thuốc có tích hợp AI, quản lý toàn bộ vòng đời phát triển sản phẩm, xây dựng giao diện người dùng thân thiện",
+    "technologies": "ReactJS, Bootstrap, TailwindCSS, Vite, NodeJS, ExpressJS, PostgreSQL"
+  },
+  {
+    "type": "project",
+    "title": "Whatpad",
+    "role": "Frontend Developer",
+    "description": "Phát triển ứng dụng đọc và viết truyện trực tuyến, tập trung vào giao diện thân thiện, responsive",
+    "technologies": "ReactJS, Bootstrap, NodeJS, ExpressJS, MySQL"
+  },
+  {
+    "type": "achievement",
+    "title": "Chủ tịch JS Club",
+    "description": "Japanese Software Engineer Club - Lãnh đạo và quản lý hoạt động của câu lạc bộ"
+  },
+  {
+    "type": "achievement",
+    "title": "Học bổng 30% Đại học FPT",
+    "description": "Đạt học bổng dựa trên thành tích học tập"
+  }
+]
+
+Nguyên tắc chung:
+- Luôn phân tích dựa trên dữ liệu thật có trong CV (không suy đoán thông tin chưa có)
+- Giữ giọng văn chuyên nghiệp, khách quan, không thiên vị
+- Các gợi ý câu hỏi phỏng vấn phải sát với vị trí và giúp khai thác thêm thông tin mà CV chưa thể hiện rõ
+- Nếu CV thiếu thông tin quan trọng, cần chỉ rõ trong phần đánh giá
+- Chỉ bao gồm các category mà ứng viên có kỹ năng thực sự
+- Weight phản ánh mức độ thành thạo (0.1 = mới bắt đầu, 0.5 = trung cấp, 0.8+ = nâng cao)
+- Bao gồm ít nhất 2 và tối đa 6 categories
+- Tất cả nội dung PHẢI viết bằng tiếng Việt
+- Trả về CHỈ JSON, không có text bổ sung
+
+QUY TẮC FORMAT QUAN TRỌNG:
+- kyNang: Sử dụng \\n để xuống dòng giữa các nhóm kỹ năng
+- duAnThanhTich: PHẢI là ARRAY of objects, KHÔNG được là string
+- Mỗi dự án phải có đầy đủ: type, title, role (nếu là project), description, technologies (nếu là project)
+- Mỗi thành tích phải có: type, title, description
+- KHÔNG sử dụng markdown formatting (**bold**, _italic_) trong bất kỳ trường nào`;
   }
 
   private normalizeAnalysisResult(parsed: any, availableCategoryIds: string[]): CvAnalysisResult {
@@ -125,7 +218,7 @@ Rules:
         positionApplied: parsed.candidateInfo?.positionApplied || undefined,
       },
       skillsWithWeights: [],
-      cvSummary: parsed.cvSummary || 'No summary available',
+      cvSummary: '',
     };
 
     // Validate skills
@@ -152,6 +245,34 @@ Rules:
       const fallbackCategory = availableCategoryIds[0] || 'nodejs';
       console.warn(`No valid categories found, using fallback: ${fallbackCategory}`);
       result.skillsWithWeights.push({ categoryId: fallbackCategory, weight: 0.5 });
+    }
+
+    // Convert cvSummary object to JSON string for storage
+    if (parsed.cvSummary && typeof parsed.cvSummary === 'object') {
+      result.cvSummary = JSON.stringify(parsed.cvSummary, null, 2);
+    } else if (typeof parsed.cvSummary === 'string') {
+      // Fallback for old format
+      result.cvSummary = parsed.cvSummary;
+    } else {
+      result.cvSummary = JSON.stringify({
+        thongTinUngVien: {
+          hoTen: parsed.candidateInfo?.fullName || 'N/A',
+          viTriMongMuon: parsed.candidateInfo?.positionApplied || 'N/A',
+          kinhNghiem: 'Không có thông tin',
+          hocVanChungChi: 'Không có thông tin',
+          kyNang: 'Không có thông tin',
+          ngonNgu: 'Không có thông tin',
+          duAnThanhTich: 'Không có thông tin'
+        },
+        nhanXetDanhGia: {
+          mucDoPhuHop: 'Chưa đánh giá',
+          diemManh: [],
+          diemCanCaiThien: [],
+          chatLuongCV: 'Chưa đánh giá',
+          goiYBoSung: []
+        },
+        cauHoiPhongVan: []
+      }, null, 2);
     }
 
     return result;
