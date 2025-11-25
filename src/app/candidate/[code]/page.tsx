@@ -19,6 +19,7 @@ interface Question {
   optionC: string;
   optionD: string;
   difficulty: string;
+  selectedOption?: string;
 }
 
 interface TestData {
@@ -64,6 +65,15 @@ export default function CandidateTestPage() {
 
         setTestData(result.data);
         setTimeRemaining(result.data.timeLimitSeconds);
+
+        // Restore previously selected answers (in case of refresh)
+        const restoredAnswers: Record<number, string | null> = {};
+        result.data.questions.forEach((q: Question) => {
+          if (q.selectedOption) {
+            restoredAnswers[q.id] = q.selectedOption;
+          }
+        });
+        setAnswers(restoredAnswers);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Đã xảy ra lỗi');
       } finally {
