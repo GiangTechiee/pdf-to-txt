@@ -88,5 +88,17 @@
     "name": "FastAPI",
     "description": "Modern, fast web framework for Python",
     "keywords": ["fastapi", "python", "api", "async", "pydantic"]
+  },
+  {
+    "id": "clean-architecture",
+    "name": "Clean Architecture",
+    "description": "Software architecture principles and patterns",
+    "keywords": ["clean architecture", "solid", "ddd", "design patterns", "architecture"]
+  },
+  {
+    "id": "docker",
+    "name": "Docker",
+    "description": "Containerization platform",
+    "keywords": ["docker", "container", "dockerfile", "docker-compose", "containerization"]
   }
 ]

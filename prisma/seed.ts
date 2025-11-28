@@ -334,6 +334,20 @@ async function main() {
     tracking
   );
 
+  totalAdded += await seedCategory(
+    'clean-architecture',
+    'Clean Architecture',
+    path.join(process.cwd(), 'question-bank', 'clean-architecture.md'),
+    tracking
+  );
+
+  totalAdded += await seedCategory(
+    'docker',
+    'Docker',
+    path.join(process.cwd(), 'question-bank', 'docker.md'),
+    tracking
+  );
+
   // Save tracking data
   saveTracking(tracking);
   console.log('💾 Saved tracking data\n');
