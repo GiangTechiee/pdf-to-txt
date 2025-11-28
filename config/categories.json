@@ -58,5 +58,35 @@
     "name": "Machine Learning",
     "description": "Machine learning and AI development",
     "keywords": ["machine learning", "ml", "ai", "tensorflow", "pytorch"]
+  },
+  {
+    "id": "python",
+    "name": "Python",
+    "description": "Python programming language",
+    "keywords": ["python", "django", "flask", "pandas", "numpy"]
+  },
+  {
+    "id": "mongodb",
+    "name": "MongoDB",
+    "description": "NoSQL document database",
+    "keywords": ["mongodb", "nosql", "document", "database", "aggregation"]
+  },
+  {
+    "id": "git",
+    "name": "Git",
+    "description": "Version control system",
+    "keywords": ["git", "version control", "github", "gitlab", "commit", "branch"]
+  },
+  {
+    "id": "vuejs",
+    "name": "Vue.js",
+    "description": "Progressive JavaScript framework",
+    "keywords": ["vue", "vuejs", "vue.js", "composition api", "options api"]
+  },
+  {
+    "id": "fastapi",
+    "name": "FastAPI",
+    "description": "Modern, fast web framework for Python",
+    "keywords": ["fastapi", "python", "api", "async", "pydantic"]
   }
 ]

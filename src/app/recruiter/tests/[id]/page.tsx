@@ -6,13 +6,14 @@ import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import {
   Activity, Clock, User, FileText, AlertTriangle, CheckCircle2,
-  BarChart3, Eye, ArrowLeft, MoreVertical
+  BarChart3, Eye, ArrowLeft, MoreVertical, Copy, Check
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { formatTimeRemaining, cn } from '@/lib/utils';
 import { useWebSocket } from '@/hooks/useWebSocket';
 import { CVSummaryDisplay } from '@/components/CVSummaryDisplay';
+import { toast } from 'sonner';
 
 interface TestDetails {
   testSession: {
@@ -58,6 +59,7 @@ export default function TestMonitoringPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [tabBlurCount, setTabBlurCount] = useState(0);
+  const [isCopied, setIsCopied] = useState(false);
 
   const { isConnected, lastEvent } = useWebSocket(testSessionId);
 
@@ -192,17 +194,43 @@ export default function TestMonitoringPage() {
               )}
             </h1>
             <p className="text-muted-foreground text-sm flex items-center gap-2">
-              Mã: <span className="font-mono font-medium text-foreground">{testSession.testCode}</span>
-              <span className="text-gray-300">|</span>
               <span className={cn("px-2 py-0.5 rounded-full text-xs font-medium border", getStatusColor(testSession.status))}>
                 {testSession.status.replace('_', ' ').toUpperCase()}
               </span>
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">Xuất báo cáo</Button>
-          <Button variant="destructive" size="sm">Kết thúc bài thi</Button>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 bg-muted/50 px-3 py-1.5 rounded-md border border-border/50">
+            <span className="text-xs text-muted-foreground font-medium uppercase">Mã:</span>
+            <code className="font-mono font-bold text-primary text-lg">{testSession.testCode}</code>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-6 w-6 ml-1 hover:bg-background relative"
+              onClick={() => {
+                navigator.clipboard.writeText(testSession.testCode);
+                toast.success('Đã sao chép mã bài thi');
+                setIsCopied(true);
+                setTimeout(() => setIsCopied(false), 2000);
+              }}
+              title="Sao chép mã"
+            >
+              <motion.div
+                key={isCopied ? "check" : "copy"}
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.5 }}
+                transition={{ duration: 0.2 }}
+              >
+                {isCopied ? (
+                  <Check className="h-3.5 w-3.5 text-green-600" />
+                ) : (
+                  <Copy className="h-3.5 w-3.5" />
+                )}
+              </motion.div>
+            </Button>
+          </div>
         </div>
       </div>
 

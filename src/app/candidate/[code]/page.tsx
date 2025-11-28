@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { formatTimeRemaining, cn } from '@/lib/utils';
 import { useWebSocket } from '@/hooks/useWebSocket';
+import { FormattedText } from '@/components/FormattedText';
 
 interface Question {
   id: number;
@@ -306,9 +307,12 @@ export default function CandidateTestPage() {
                       {currentQuestion.difficulty}
                     </span>
                   </div>
-                  <CardTitle className="text-xl md:text-2xl leading-relaxed mt-2">
-                    {currentQuestion.content}
-                  </CardTitle>
+                  <div className="mt-2">
+                    <FormattedText
+                      text={currentQuestion.content}
+                      className="text-xl md:text-2xl leading-relaxed font-semibold tracking-tight"
+                    />
+                  </div>
                 </CardHeader>
                 <CardContent className="pt-6 space-y-3">
                   {['A', 'B', 'C', 'D'].map((option) => {
@@ -332,12 +336,12 @@ export default function CandidateTestPage() {
                         )}>
                           {option}
                         </div>
-                        <span className={cn(
+                        <div className={cn(
                           "flex-1 pt-1 font-medium",
                           isSelected ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
                         )}>
-                          {optionText}
-                        </span>
+                          <FormattedText text={optionText} />
+                        </div>
                         {isSelected && (
                           <motion.div
                             initial={{ scale: 0 }}

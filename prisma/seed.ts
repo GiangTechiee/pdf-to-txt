@@ -264,6 +264,76 @@ async function main() {
     tracking
   );
 
+  totalAdded += await seedCategory(
+    'python',
+    'Python',
+    path.join(process.cwd(), 'question-bank', 'python.md'),
+    tracking
+  );
+
+  totalAdded += await seedCategory(
+    'mongodb',
+    'MongoDB',
+    path.join(process.cwd(), 'question-bank', 'mongodb.md'),
+    tracking
+  );
+
+  totalAdded += await seedCategory(
+    'machine-learning',
+    'Machine Learning',
+    path.join(process.cwd(), 'question-bank', 'machine-learning.md'),
+    tracking
+  );
+
+  totalAdded += await seedCategory(
+    'flutter',
+    'Flutter',
+    path.join(process.cwd(), 'question-bank', 'flutter.md'),
+    tracking
+  );
+
+  totalAdded += await seedCategory(
+    'git',
+    'Git',
+    path.join(process.cwd(), 'question-bank', 'git.md'),
+    tracking
+  );
+
+  totalAdded += await seedCategory(
+    'nextjs',
+    'Next.js',
+    path.join(process.cwd(), 'question-bank', 'nextjs.md'),
+    tracking
+  );
+
+  totalAdded += await seedCategory(
+    'nestjs',
+    'NestJS',
+    path.join(process.cwd(), 'question-bank', 'nestjs.md'),
+    tracking
+  );
+
+  totalAdded += await seedCategory(
+    'react-native',
+    'React Native',
+    path.join(process.cwd(), 'question-bank', 'react-native.md'),
+    tracking
+  );
+
+  totalAdded += await seedCategory(
+    'vuejs',
+    'Vue.js',
+    path.join(process.cwd(), 'question-bank', 'vuejs.md'),
+    tracking
+  );
+
+  totalAdded += await seedCategory(
+    'fastapi',
+    'FastAPI',
+    path.join(process.cwd(), 'question-bank', 'fastapi.md'),
+    tracking
+  );
+
   // Save tracking data
   saveTracking(tracking);
   console.log('💾 Saved tracking data\n');

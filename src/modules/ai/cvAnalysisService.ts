@@ -12,7 +12,7 @@ class GeminiCvAnalysisService implements CvAnalysisService {
   constructor() {
     // Initialize with analysis API key (Key B)
     this.genAI = new GoogleGenerativeAI(env.GEMINI_ANALYSIS_API_KEY);
-    this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-pro' });
+    this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
   }
 
   async analyzeCvAndJd(cvText: string, jdText?: string): Promise<CvAnalysisResult> {

@@ -11,7 +11,7 @@ class GeminiPdfExtractorService implements PdfExtractorService {
   constructor() {
     // Initialize with PDF extraction API key (Key A)
     this.genAI = new GoogleGenerativeAI(env.GEMINI_PDF_API_KEY);
-    this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-pro' });
+    this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
   }
 
   async extractTextFromPdf(file: Buffer): Promise<string> {

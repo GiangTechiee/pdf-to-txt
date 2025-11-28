@@ -3,6 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { User, Briefcase, Award, MessageSquare, CheckCircle, AlertCircle } from 'lucide-react';
+import { FormattedText } from '@/components/FormattedText';
 
 interface ProjectItem {
   type: 'project' | 'achievement';
@@ -88,19 +89,19 @@ function renderProjectsAndAchievements(data: ProjectItem[] | string) {
       }
     });
   }
-  
+
   // Old format: String with markdown
   if (typeof data === 'string') {
     return formatMarkdownText(data);
   }
-  
+
   return null;
 }
 
 // Helper function to format markdown-like text (for backward compatibility)
 function formatMarkdownText(text: string) {
   const lines = text.split('\n').filter(line => line.trim());
-  
+
   return lines.map((line, index) => {
     // Check if line starts with "- **" (bullet point with bold)
     if (line.trim().startsWith('- **')) {
@@ -118,7 +119,7 @@ function formatMarkdownText(text: string) {
         );
       }
     }
-    
+
     // Regular line
     return (
       <p key={index} className="mb-1">
@@ -138,7 +139,7 @@ export function CVSummaryDisplay({ cvSummary }: CVSummaryDisplayProps) {
   }
 
   let summaryData: CVSummaryData;
-  
+
   try {
     // Try to parse as JSON
     summaryData = JSON.parse(cvSummary);
@@ -219,7 +220,7 @@ export function CVSummaryDisplay({ cvSummary }: CVSummaryDisplayProps) {
                 </p>
               </div>
             )}
-            
+
             {nhanXetDanhGia.diemManh && nhanXetDanhGia.diemManh.length > 0 && (
               <div>
                 <span className="font-medium text-muted-foreground flex items-center gap-1 mb-2">
@@ -294,10 +295,13 @@ export function CVSummaryDisplay({ cvSummary }: CVSummaryDisplayProps) {
                   <Badge variant="outline" className="bg-green-100 text-green-700 border-green-300">
                     Câu {idx + 1}
                   </Badge>
-                  <p className="font-medium text-sm flex-1">{item.cauHoi}</p>
+                  <div className="font-medium text-sm flex-1">
+                    <FormattedText text={item.cauHoi} />
+                  </div>
                 </div>
                 <div className="text-xs text-muted-foreground bg-white p-2 rounded border border-green-100">
-                  <span className="font-medium">Ý chính cần có:</span> {item.yChinhCanCo}
+                  <span className="font-medium">Ý chính cần có:</span>
+                  <FormattedText text={item.yChinhCanCo} className="inline" />
                 </div>
               </div>
             ))}
